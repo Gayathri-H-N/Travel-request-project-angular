@@ -1,0 +1,88 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main Navigation">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="https://media.licdn.com/dms/image/v2/D560BAQHYlX9UCJ_aTQ/company-logo_200_200/company-logo_200_200/0/1719809450477/reflectionsit_logo?e=2147483647&v=beta&t=ZaHEKe2g9uS1Z5rSCoP7QcCRk0pOcGi83GjY2by_It4"
+             alt="Reflections Info Systems Logo" width="40" height="40" class="me-2">
+        <span class="fw-bold">Reflections Info Systems</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item me-3">
+            <a class="nav-link text-white fs-6" routerLink="/admin-home">Home</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link text-white fs-6" routerLink="/admin-create">Add User</a>
+          </li>
+          <li class="nav-item me-3">
+            <app-logout></app-logout>
+          </li> 
+        </ul>
+      </div>        
+    </div>
+  </nav>
+</header>
+
+  <main>
+    <div class="form-container mt-5">
+      <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+        <fieldset>
+          <legend class="visually-hidden">Create New User</legend>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="role" class="form-label fw-semibold">Role</label>
+              <select class="form-select" formControlName="role">
+                <option value="" disabled>Select Role</option>
+                <option value="Employee">Employee</option>
+                <option value="Manager">Manager</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+                <label for="email" class="form-label fw-semibold">Email</label>
+                <input type="email" id="email" class="form-control" formControlName="email">
+            </div>
+            <div class="col-md-6">
+                <label for="username" class="form-label fw-semibold">Username</label>
+                <input type="text" id="username" class="form-control" formControlName="username">
+            </div>
+            <div class="col-md-6">
+              <label for="password" class="form-label fw-semibold">Password</label>
+              <input type="password" id="password" class="form-control" formControlName="password">
+            </div>
+            <div class="col-md-6">
+              <label for="first_name" class="form-label fw-semibold">First Name</label>
+              <input type="text" id="first_name" class="form-control" formControlName="first_name">
+            </div>
+            <div class="col-md-6">
+              <label for="last_name" class="form-label fw-semibold">Last Name</label>
+              <input type="text" id="last_name" class="form-control" formControlName="last_name">
+            </div>
+            <div class="col-md-6" *ngIf="createUserForm.get('role')?.value === 'Employee'">
+              <label for="manager" class="form-label fw-semibold">Manager</label>
+              <input type="text" id="manager" class="form-control" formControlName="manager" placeholder="Enter Manager ID">
+            </div>
+            <div class="col-md-6">
+              <label for="hire_date" class="form-label fw-semibold">Hire Date</label>
+              <input type="date" id="hire_date" class="form-control" formControlName="hire_date">
+            </div>
+            <div class="col-md-6">
+              <label for="status" class="form-label fw-semibold">Status</label>
+              <select class="form-select" formControlName="status">
+                <option value="Active">Active</option>
+                <option value="Disabled">Disabled</option>
+                <option value="Terminated">Terminated</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-primary">Create User</button>
+        </div>
+      </form>
+    </div>
+  </main>

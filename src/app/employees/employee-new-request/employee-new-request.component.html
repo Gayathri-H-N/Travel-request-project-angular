@@ -1,0 +1,174 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" routerLink="#">
+        <img
+          src="https://media.licdn.com/dms/image/v2/D560BAQHYlX9UCJ_aTQ/company-logo_200_200/company-logo_200_200/0/1719809450477/reflectionsit_logo?e=2147483647&v=beta&t=ZaHEKe2g9uS1Z5rSCoP7QcCRk0pOcGi83GjY2by_It4"
+          alt="Company Logo" width="40" height="40" class="d-inline-block align-text-top me-2">
+        <strong>Reflections Info Systems</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item">
+            <a class="nav-link me-3 text-white fw-bold" routerLink="/home">Home</a>
+          </li>
+          <li class="nav-item me-3 text-white fw-bold">
+            <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
+            <span>{{employeeName}} | ID: {{employeeId}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+<main>
+  <div class="container mt-5">
+    <form [formGroup]="newRequestForm" (ngSubmit)="submitRequest()">
+      <fieldset>
+        <legend class="visually-hidden">Travel Request Form</legend>
+        <div class="row g-3"> 
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" for="employeeId">Employee ID</label>
+            <input type="text" class="form-control" id="employeeId" formControlName="employee_id" readonly readonly>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" for="employeeName">Employee Name</label>
+            <input type="text" class="form-control" id="employeeName" formControlName="employee_name"  readonly>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" for="managerName">Manager Name</label>
+            <input type="text" class="form-control" id="managerName" formControlName="manager_name"  readonly>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="departure_location">Departure City</label>
+            <input type="text" class="form-control" id="departure_location" formControlName="departure_location" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="destination">Destination</label>
+            <input type="text" class="form-control" id="destination" formControlName="destination" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="departure_date">Date of departure</label>
+            <input type="date" class="form-control" id="departure_date" formControlName="departure_date" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="return_date">Date of return</label>
+            <input type="date" class="form-control" id="return_date" formControlName="return_date" required>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="travel_mode">Mode of Transport</label>
+            <select class="form-select" id="travel_mode" formControlName="travel_mode" required>
+              <option value="" disabled selected>Select transport mode</option>
+              <option>Flight</option>
+              <option>Train</option>
+              <option>Bus</option>
+              <option>Car</option>
+              <option>Ship</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="lodging_required">Lodging Required?</label>
+            <select id="lodging_required" class="form-select" formControlName="lodging_required" required>
+              <option value="No" selected>No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+
+          <div class="col-12" [hidden]="newRequestForm.get('lodging_required')?.value !== 'Yes'">
+            <label class="form-label fw-semibold" for="preferred_lodge">Preferred Lodging Location</label>
+            <input type="text" id="preferred_lodge" class="form-control" formControlName="preferred_lodge" />
+          </div>
+
+          <div class="col-12">
+            <label class="form-label fw-semibold" for="purpose">Purpose of Travel</label>
+            <input
+              type="text"
+              class="form-control"
+              id="purpose"
+              placeholder="Describe purpose"
+              formControlName="purpose"
+              required
+            >
+          </div>
+
+          <div class="col-12">
+            <label class="form-label fw-semibold" for="employee_additional_notes">Additional Information</label>
+            <textarea
+              class="form-control"
+              id="employee_additional_notes"
+              rows="3"
+              placeholder="Extra details..."
+              formControlName="employee_additional_notes"
+            ></textarea>
+          </div>
+
+        </div>
+      </fieldset>
+      
+      <div class="col-12 text-center mt-4">
+        <button type="button" class="btn btn-danger w-25 me-3" data-bs-toggle="modal" data-bs-target="#discardModal">Discard</button>
+        <button type="button" class="btn btn-success w-25" data-bs-toggle="modal" data-bs-target="#submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="modal fade" id="submit" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Submit request?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to submit?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="submitRequest(); closeModal('submit')">
+            Proceed
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div class="modal fade" id="discardModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Discard request?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">Are you sure you want to discard your request?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" (click)="discardRequest(); closeModal('discardModal')">Discard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<footer class="bg-dark text-white text-center py-2 mt-5">
+  <p>&copy; 2025 Travel Request. All rights reserved.</p>
+</footer>
