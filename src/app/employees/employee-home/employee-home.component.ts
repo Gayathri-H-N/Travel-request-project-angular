@@ -83,11 +83,12 @@ export class EmployeeHomeComponent implements OnInit {
   
   submitAdditionalInfo(): void {
     console.log('submitAdditionalInfo called');
+    
     if (!this.additionalInfo.trim() && !this.adminResponse.trim()) {
       alert('Please enter additional information.');
       return;
     }
-    
+  
     if (this.additionalInfo.trim()) {
       this.employeeService.provideInfoToManager(this.selectedRequestId!, { 
         employee_response_to_manager: this.additionalInfo 
@@ -95,6 +96,7 @@ export class EmployeeHomeComponent implements OnInit {
         next: () => {
           alert('Manager additional info provided successfully.');
           this.loadRequests();
+          this.closeModal();
         },
         error: (error) => {
           console.error('Error providing manager info', error);
@@ -109,6 +111,7 @@ export class EmployeeHomeComponent implements OnInit {
         next: () => {
           alert('Admin additional info provided successfully.');
           this.loadRequests();
+          this.closeModal();
         },
         error: (error) => {
           console.error('Error providing admin info', error);
@@ -116,5 +119,19 @@ export class EmployeeHomeComponent implements OnInit {
       });
     }
   }
+  
+  // Ensure modal and backdrop are removed
+  closeModal(): void {
+    const modalElement = document.getElementById('provideInfoModal');
+    if (modalElement) {
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+    document.body.classList.remove('modal-open'); // Remove Bootstrap modal class
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+  }
+  
   
 }
