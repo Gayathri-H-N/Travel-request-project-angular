@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+
+  <div class="login-card" aria-labelledby="login-heading">
+    <h2 id="login-heading" class="text-center mb-3">LOGIN PAGE</h2>
+    <nav>
+      <ul class="nav nav-tabs nav-justified mb-3" id="loginTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="admin-tab" data-bs-toggle="tab" href="#admin" role="tab" aria-controls="admin"
+            aria-selected="true">Admin</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="employee-tab" data-bs-toggle="tab" href="#employee" role="tab"
+            aria-controls="employee" aria-selected="false">Employee</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="manager-tab" data-bs-toggle="tab" href="#manager" role="tab" aria-controls="manager"
+            aria-selected="false">Manager</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="tab-content">
+      <section class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+        <form (ngSubmit)="loginAsAdmin()">
+          <div class="mb-3">
+            <label for="admin-username" class="form-label">Username</label>
+            <input type="text" id="admin-username" class="form-control" [(ngModel)]="adminUsername" name="adminUsername"
+              placeholder="Enter Admin Username" required>
+          </div>
+          <div class="mb-3">
+            <label for="admin-password" class="form-label">Password</label>
+            <input type="password" id="admin-password" class="form-control" [(ngModel)]="adminPassword"
+              name="adminPassword" placeholder="Enter Password" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 shadow-sm">Login as Admin</button>
+        </form>
+      </section>
+
+      <section class="tab-pane fade" id="employee" role="tabpanel" aria-labelledby="employee-tab">
+        <form (ngSubmit)="loginAsEmployee()">
+          <div class="mb-3">
+            <label for="employee-username" class="form-label">Username</label>
+            <input type="text" id="employee-username" class="form-control" [(ngModel)]="employeeUsername"
+              name="employeeUsername" placeholder="Enter Employee Username" required>
+          </div>
+          <div class="mb-3">
+            <label for="employee-password" class="form-label">Password</label>
+            <input type="password" id="employee-password" class="form-control" [(ngModel)]="employeePassword"
+              name="employeePassword" placeholder="Enter Password" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 shadow-sm">Login as Employee</button>
+        </form>
+      </section>
+
+      <section class="tab-pane fade" id="manager" role="tabpanel" aria-labelledby="manager-tab">
+        <form (ngSubmit)="loginAsManager()">
+          <div class="mb-3">
+            <label for="manager-username" class="form-label">Username</label>
+            <input type="text" id="manager-username" class="form-control" [(ngModel)]="managerUsername"
+              name="managerUsername" placeholder="Enter Manager Username" required>
+          </div>
+          <div class="mb-3">
+            <label for="manager-password" class="form-label">Password</label>
+            <input type="password" id="manager-password" class="form-control" [(ngModel)]="managerPassword"
+              name="managerPassword" placeholder="Enter Password" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 shadow-sm">Login as Manager</button>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>

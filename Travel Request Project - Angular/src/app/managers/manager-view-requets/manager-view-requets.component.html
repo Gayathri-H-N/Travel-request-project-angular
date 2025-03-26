@@ -1,0 +1,142 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img
+          src="https://media.licdn.com/dms/image/v2/D560BAQHYlX9UCJ_aTQ/company-logo_200_200/company-logo_200_200/0/1719809450477/reflectionsit_logo?e=2147483647&v=beta&t=ZaHEKe2g9uS1Z5rSCoP7QcCRk0pOcGi83GjY2by_It4"
+          alt="Company Logo" width="40" height="40" class="d-inline-block align-text-top me-2">
+        <strong>Reflections Info Systems</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item me-3 text-white fw-bold">
+            <i class="bi bi-person-circle me-1"></i>
+            <span>{{ managerName }} | ID: {{ managerId }}</span>
+          </li>
+          <li class="nav-item">
+            <app-logout></app-logout>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="form-container mt-5">
+    <form [formGroup]="updateForm" (ngSubmit)="updateStatus('More Info Required')">
+      <fieldset>
+        <legend class="visually-hidden">Travel Request Details</legend>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" for="employeeId">Employee ID</label>
+            <input type="text" class="form-control" id="employeeId" [value]="requestDetail?.employee" readonly>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" for="employeeName">Employee Name</label>
+            <input type="text" class="form-control" id="employeeName" [value]="requestDetail?.employee_name" readonly>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" for="managerName">Manager Name</label>
+            <input type="text" class="form-control" id="managerName" [value]="requestDetail?.manager_name" readonly>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="departure_location">Departure City</label>
+            <input type="text" class="form-control" id="departure_location" [value]="requestDetail?.departure_location"
+              readonly>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="destination">Destination</label>
+            <input type="text" class="form-control" id="destination" [value]="requestDetail?.destination" readonly>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="departure_date">Departure Date</label>
+            <input type="date" class="form-control" id="departure_date" [value]="requestDetail?.departure_date"
+              readonly>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="return_date">Return Date</label>
+            <input type="date" class="form-control" id="return_date" [value]="requestDetail?.return_date" readonly>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="travel_mode">Mode of Transport</label>
+            <input type="text" class="form-control" id="travel_mode" [value]="requestDetail?.travel_mode" readonly>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold" for="lodging_required">Lodging Required?</label>
+            <input type="text" class="form-control" id="lodging_required" [value]="requestDetail?.lodging_required"
+              readonly>
+          </div>
+          <div class="col-12" *ngIf="requestDetail?.lodging_required === 'Yes'">
+            <label class="form-label fw-semibold" for="preferred_lodge">Preferred Lodging Location</label>
+            <input type="text" id="preferred_lodge" class="form-control"
+              [value]="(requestDetail?.lodging_required) ? 'Yes' : 'No'" readonly>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold" for="purpose">Purpose of Travel</label>
+            <textarea class="form-control" id="purpose" rows="3" [value]="requestDetail?.purpose" readonly></textarea>
+          </div>
+          <div class="col-12">
+            <label class="form-label fw-semibold" for="employee_additional_notes">Additional Employee Notes</label>
+            <textarea class="form-control" id="employee_additional_notes" rows="3"
+              [value]="requestDetail?.employee_additional_notes" readonly></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="mt-3" *ngIf="showMoreInfoField">
+        <label class="form-label fw-semibold" for="manager_note">Manager Note</label>
+        <textarea class="form-control" id="manager_note" formControlName="manager_note" rows="3"
+          placeholder="Enter details required from employee"></textarea>
+        <div class="text-center mt-3">
+          <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#moreInfoModal">
+            Submit Info Request
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-4 d-flex justify-content-around">
+        <button type="button" class="btn btn-danger" *ngIf="requestDetail?.admin_status.toLowerCase() !== 'closed'"
+          (click)="updateStatus('Rejected')">
+          Reject
+        </button>
+
+        <button type="button" class="btn btn-warning"
+          *ngIf="!showMoreInfoField && requestDetail?.admin_status.toLowerCase() !== 'closed'"
+          (click)="MoreInfoClick()">
+          Request Info
+        </button>
+      
+        <button type="button" class="btn btn-success" *ngIf="requestDetail?.admin_status.toLowerCase() !== 'closed'"
+          (click)="updateStatus('Approved')">
+          Approve
+        </button>
+      </div>
+      
+      <div class="modal fade" id="moreInfoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Submit Info Request</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to request more information from the employee?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-warning" (click)="updateStatus('More Info Required')"
+                data-bs-dismiss="modal">Yes, Request Info</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</main>
